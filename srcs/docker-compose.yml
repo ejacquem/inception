@@ -1,0 +1,22 @@
+version: '3'
+services:
+  nginx:
+    container_name: nginx
+    image: "inception-image:1.02"
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    ports:
+      - "8080:80"
+      - "8443:443"
+    restart: always
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - "8081:80"
+    environment:
+      WORDPRESS_DB_HOST: none
+      WORDPRESS_DB_NAME: none
+      WORDPRESS_DB_USER: none
+      WORDPRESS_DB_PASSWORD: none
+
