@@ -1,17 +1,22 @@
 FROM debian:buster
 
-RUN apt-get update \
-	&& apt-get -y upgrade \
-	&& apt-get -y install wordpress php-fpm
-		
-# Use the official WordPress image as the base
-#FROM wordpress:latest
+#Instal php
+RUN apt update \
+	&& apt -y upgrade \
+	&& apt -y install php-fpm php-mysql curl
 
-# Install PHP-FPM (WordPress Docker image is already configured with Apache)
-#RUN apt -y update && apt install -y php-fpm
+#Download WP-CLI
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+	&& chmod +x wp-cli.phar \
+	&& mv wp-cli.phar /usr/local/bin/wp
 
-# Expose PHP-FPM port
-#EXPOSE 9000
+#Download WP 
+RUN wp core download --allow-root
 
-# Start PHP-FPM (though Apache is used in this case)
-#CMD ["php-fpm"]
+COPY ./create_wp.sh /
+
+RUN chmod 777 create_wp.sh
+
+EXPOSE 9000
+
+CMD [ "/create_wp.sh" ]
