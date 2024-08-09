@@ -11,6 +11,8 @@ services:
       - wp_data:/var/www/html
     networks:
       - inception_network
+    env_file:
+    - .env
 #MARIADB
   mariadb:
     container_name: mariadb
@@ -20,6 +22,8 @@ services:
       - db_data:/var/lib/mysql
     networks:
       - inception_network
+    env_file:
+    - .env
 #wordpress
   wordpress:
     container_name: wordpress
@@ -31,6 +35,8 @@ services:
       - wp_data:/var/www/html
     networks:
       - inception_network
+    env_file:
+    - .env
 
 networks:
   inception_network:

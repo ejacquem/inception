@@ -1,22 +1,17 @@
 FROM debian:buster
 
 #Instal php
-RUN apt update \
-	&& apt -y upgrade \
-	&& apt -y install php-fpm php-mysql curl
+RUN apt update && \
+	apt -y upgrade && \
+	apt -y install php-fpm php-mysql curl
 
-#Download WP-CLI
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-	&& chmod +x wp-cli.phar \
-	&& mv wp-cli.phar /usr/local/bin/wp
+COPY www.conf /etc/php/7.3/fpm/pool.d/
 
-#Download WP 
-RUN wp core download --allow-root
+RUN mkdir -p /run/php
 
 COPY ./create_wp.sh /
-
-RUN chmod 777 create_wp.sh
+RUN chmod +x create_wp.sh
 
 EXPOSE 9000
 
-CMD [ "/create_wp.sh" ]
+CMD ["/create_wp.sh", "&&", "php-fpm7.3", "-F"]
