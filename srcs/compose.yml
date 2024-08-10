@@ -15,17 +15,26 @@ services:
     - .env
 #MARIADB
   mariadb:
+    image: mysql:5.7
     container_name: mariadb
-    build: ./mariadb
+    #build: ./mariadb
     restart: always
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
     networks:
       - inception_network
     env_file:
-    - .env
+      - .env
 #wordpress
   wordpress:
+    depends_on:
+      - mariadb
+      - nginx
     container_name: wordpress
     build: ./wordpress
     ports:
@@ -41,6 +50,7 @@ services:
 networks:
   inception_network:
     driver: bridge
+    name: inception_network
 
 volumes:
   db_data:

@@ -28,7 +28,7 @@ echo "WP_ADMIN_PWD: $WP_ADMIN_PWD"
 echo "WP_ADMIN_EMAIL: $WP_ADMIN_EMAIL"
 
 echo "${BOLD}${GREEN}making html dir${RESET}"
-mkdir -p /var/www/html && cd /var/www/html
+mkdir -p /var/www/html && cd /var/www/html && rm -rf *
 
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
@@ -40,12 +40,12 @@ wp --info
 echo "${BOLD}${GREEN}WP downloaded${RESET}"
 wp core download --allow-root
 
-echo "${BOLD}Creating wp-config $db_name ${RESET}"
+echo "${BOLD}Creating wp-config with data_base : $db_name ${RESET}"
 wp config create --allow-root \
 	--dbname=$db_name \
 	--dbuser=$db_user \
 	--dbpass=$db_pwd \
-	--dbhost=localhost \
+	--dbhost=$db_host \
 	--dbprefix=wp_
 
 
