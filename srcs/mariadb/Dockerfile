@@ -1,9 +1,11 @@
-# Use the official MariaDB base image
-FROM mariadb:latest
+FROM debian:buster
 
-# Expose the default MariaDB port
-EXPOSE 3306
+RUN apt update && \
+	apt -y upgrade && \
+	apt -y install mariadb-server
 
-# Start MariaDB server
-CMD ["mysqld"]
+COPY ./50-server.cnf /etc/mysql/mariadb.conf.d/
+COPY ./create_db.sh /
+RUN chmod +x create_db.sh
 
+CMD [ "/create_db.sh" ]

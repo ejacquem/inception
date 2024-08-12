@@ -1,7 +1,6 @@
 #!/bin/sh
 
-BOLD="\e[1m"
-RESET="\e[0m"
+BOLD="\e[1m"; RESET="\e[0m"
 
 # Text colors
 RED="\e[31m"
@@ -18,15 +17,6 @@ WHITE="\e[37m"
 #	echo "wordpress already downloaded"
 #else
 
-echo "DB_NAME: $db_name"
-echo "DB_USER: $db_user"
-echo "DB_PWD: $db_pwd"
-echo "DOMAIN_NAME: $DOMAIN_NAME"
-echo "WP_TITLE: $WP_TITLE"
-echo "WP_ADMIN_USR: $WP_ADMIN_USR"
-echo "WP_ADMIN_PWD: $WP_ADMIN_PWD"
-echo "WP_ADMIN_EMAIL: $WP_ADMIN_EMAIL"
-
 echo "${BOLD}${GREEN}making html dir${RESET}"
 mkdir -p /var/www/html && cd /var/www/html && rm -rf *
 
@@ -40,12 +30,12 @@ wp --info
 echo "${BOLD}${GREEN}WP downloaded${RESET}"
 wp core download --allow-root
 
-echo "${BOLD}Creating wp-config with data_base : $db_name ${RESET}"
+echo "${BOLD}Creating wp-config with dbhost : $DB_HOST ${RESET}"
 wp config create --allow-root \
-	--dbname=$db_name \
-	--dbuser=$db_user \
-	--dbpass=$db_pwd \
-	--dbhost=$db_host \
+	--dbname=$MYSQL_DATABASE \
+	--dbuser=$MYSQL_USER \
+	--dbpass=$MYSQL_PASSWORD \
+	--dbhost=$DB_HOST \
 	--dbprefix=wp_
 
 
