@@ -4,7 +4,6 @@ services:
     container_name: nginx
     build: ./nginx
     ports:
-      - "8080:80"
       - "443:443"
     restart: always
     volumes:
@@ -15,15 +14,9 @@ services:
     - .env
 #MARIADB
   mariadb:
-    #image: mysql:latest
     container_name: mariadb
     build: ./mariadb
     restart: unless-stopped
-#    environment:
-#      - MYSQL_DATABASE=${MYSQL_DATABASE}
-#      - MYSQL_USER=${MYSQL_USER}
-#      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-#      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     expose:
       - 3306
     volumes:
@@ -45,15 +38,13 @@ services:
     networks:
       - inception_network
     env_file:
-    - .env
+      - .env
+    expose:
+      - 9000
 
 networks:
   inception_network:
-    driver: bridge
-    name: inception_network
 
 volumes:
   db_data:
-    name: db_data
   wp_data:
-    name: wp_data

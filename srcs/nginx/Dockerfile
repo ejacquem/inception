@@ -1,8 +1,7 @@
 FROM debian:buster
 
-RUN apt -y update && apt install -y nginx && apt install openssl -y
-# Install OpenSSL if not already included
-# RUN apt-get update && apt-get install -y openssl
+RUN apt -y update && \
+	apt -y install nginx openssl
 
 # Generate SSL certificate and key
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
@@ -11,9 +10,6 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -subj "/CN=localhost"
 
 COPY mynginx.conf /etc/nginx/conf.d/
-
-COPY index.html /usr/share/nginx/html/index.html
-
-EXPOSE 80 443
+#COPY index.html /usr/share/nginx/html/index.html
 
 CMD ["nginx", "-g", "daemon off;"]

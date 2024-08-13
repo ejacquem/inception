@@ -12,6 +12,4 @@ RUN mkdir -p /run/php
 COPY ./create_wp.sh /
 RUN chmod +x create_wp.sh
 
-EXPOSE 9000
-
 CMD ["/create_wp.sh", "&&", "php-fpm7.3", "-F"]
