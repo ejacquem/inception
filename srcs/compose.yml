@@ -2,7 +2,7 @@ services:
 #NGINX
   nginx:
     container_name: nginx
-    build: ./nginx
+    build: ./requirements/nginx
     ports:
       - "443:443"
     restart: always
@@ -15,7 +15,7 @@ services:
 #MARIADB
   mariadb:
     container_name: mariadb
-    build: ./mariadb
+    build: ./requirements/mariadb
     restart: unless-stopped
     expose:
       - 3306
@@ -31,7 +31,7 @@ services:
       - mariadb
       - nginx
     container_name: wordpress
-    build: ./wordpress
+    build: ./requirements/wordpress
     restart: always
     volumes:
       - wp_data:/var/www/html
@@ -47,4 +47,14 @@ networks:
 
 volumes:
   db_data:
+    name: "db_data"
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: '/home/ljacquem/data/mariadb'
   wp_data:
+    name: "wp_data"
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: '/home/ljacquem/data/wordpress'

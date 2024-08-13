@@ -14,4 +14,10 @@ build:
 space: down
 	docker system prune -af --volumes
 
+ls:
+	@docker ps -a
+	@docker images -a
+	@docker volume ls
+	@docker network ls
+
 re: down build up
